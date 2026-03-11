@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ product.name }} | FreshMart</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#e0f7fa,#f1f8e9);
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 60px;
+    background:white;
+    box-shadow:0 5px 25px rgba(0,0,0,0.08);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    color:#2e7d32;
+}
+
+.nav-links a{
+    margin-left:25px;
+    text-decoration:none;
+    color:#333;
+    font-weight:600;
+}
+
+/* PRODUCT DETAIL */
+.detail-container{
+    display:flex;
+    gap:60px;
+    padding:60px 100px;
+    align-items:center;
+}
+
+.detail-container img{
+    width:450px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.detail-info{
+    max-width:500px;
+}
+
+.detail-info h1{
+    color:#2e7d32;
+    font-size:36px;
+}
+
+.price{
+    font-size:26px;
+    color:#2e7d32;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#2e7d32;
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:600;
+}
+
+/* RELATED */
+.related{
+    padding:40px 100px;
+}
+
+.related h2{
+    color:#2e7d32;
+}
+
+.related-products{
+    display:flex;
+    gap:20px;
+}
+
+.related-card{
+    width:200px;
+    background:white;
+    padding:10px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.related-card img{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">🛒 FreshMart</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+    </div>
+</div>
+
+<div class="detail-container">
+    <img src="{{ product.image.url }}">
+
+    <div class="detail-info">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <div class="price">₹ {{ product.price }}</div>
+
+        <a href="{% url 'add_to_cart' product.id %}" class="btn">
+            Add to Cart
+        </a>
+    </div>
+</div>
+
+<div class="related">
+    <h2>Related Products</h2>
+
+    <div class="related-products">
+        {% for item in related_products %}
+        <div class="related-card">
+            <a href="{% url 'product_detail' item.id %}">
+                <img src="{{ item.image.url }}">
+                <p>{{ item.name }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

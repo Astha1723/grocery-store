@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Cart</title>
+
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI';
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+}
+
+.navbar {
+    background:white;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size:22px;
+    font-weight:bold;
+    color:#e84393;
+}
+
+.navbar a {
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+}
+
+
+.cart-container {
+    width:80%;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    animation:fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+.cart-item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom:none;
+}
+
+.item-info {
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.item-info img {
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.price {
+    color:#e84393;
+    font-weight:bold;
+}
+
+.total-section {
+    text-align:right;
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.btn {
+    background:#e84393;
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover {
+    background:#d63072;
+    transform:scale(1.05);
+}
+
+.empty {
+    text-align:center;
+    padding:40px;
+    font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">🛍 Your Cart</div>
+    <a href="/">⬅ Back to Home</a>
+</div>
+
+<div class="cart-container">
+
+{% if items %}
+    {% for item in items %}
+        <div class="cart-item">
+            <div class="item-info">
+                <img src="{{ item.product.image.url }}">
+                <div>
+                    <h3>{{ item.product.name }}</h3>
+                    <p>Qty: {{ item.quantity }}</p>
+                </div>
+            </div>
+            <div class="price">
+                ₹ {{ item.total_price }}
+            </div>
+        </div>
+
+        <a href="{% url 'remove_from_cart' item.id %}" 
+   style="color:red; text-decoration:none; font-weight:bold;">
+   Remove
+</a>
+    {% endfor %}
+
+    <div class="total-section">
+        Total: ₹ {{ total }}
+        <br><br>
+        <a href="{% url 'checkout' %}" class="btn">
+    Proceed to Checkout
+</a>
+    </div>
+
+{% else %}
+    <div class="empty">
+        🛒 Your Cart is Empty
+    </div>
+
+    
+{% endif %}
+
+</div>
+
+</body>
+</html>  
